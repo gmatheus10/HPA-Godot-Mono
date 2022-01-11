@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Grid/CreateGrid.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Grid/AbstractGraph.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Grid/DrawGrid.cs" type="Script" id=3]
+
+[node name="CreateGrid" type="Node2D"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+CellSize = 32
+GridSize = Vector2( 16, 16 )
+Level = 3
+LevelOneClusterSize = Vector2( 4, 4 )
+
+[node name="AbstractGraph" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="DrawGraph" type="Node2D" parent="AbstractGraph"]
+script = ExtResource( 3 )

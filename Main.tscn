@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Grid.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Utils/Mouse.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Utils/DebugOnClick.cs" type="Script" id=3]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=4]
+
+[node name="Main" type="Node2D"]
+
+[node name="CreateGrid" parent="." instance=ExtResource( 1 )]
+GridSize = Vector2( 150, 150 )
+LevelOneClusterSize = Vector2( 25, 25 )
+
+[node name="Mouse" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="DebugGraph" type="Node2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+position = Vector2( 32, 32 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 1022.75, 602.248 )
+current = true
+zoom = Vector2( 2, 2 )

@@ -1,0 +1,7 @@
+assemblies
+metadata
+.vscode
+temp
+.mono
+*.import
+*.sln

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Configurations/PathfindingConfig.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Pathfinding/HierarchicalPathfinding.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Player/Movement.cs" type="Script" id=3]
+
+[node name="Pathfinding" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="HierarchicalPathfinding" type="Node2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="Movement" type="Node2D" parent="."]
+script = ExtResource( 3 )
