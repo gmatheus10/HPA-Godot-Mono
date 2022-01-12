@@ -5,3 +5,4 @@ temp
 .mono
 *.import
 *.sln
+*.csproj

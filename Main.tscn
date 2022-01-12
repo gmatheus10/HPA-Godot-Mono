@@ -8,8 +8,9 @@
 [node name="Main" type="Node2D"]
 
 [node name="CreateGrid" parent="." instance=ExtResource( 1 )]
+CellSize = 64
 GridSize = Vector2( 150, 150 )
-LevelOneClusterSize = Vector2( 20, 20 )
+LevelOneClusterSize = Vector2( 25, 25 )
 
 [node name="Mouse" type="Node2D" parent="."]
 script = ExtResource( 2 )
