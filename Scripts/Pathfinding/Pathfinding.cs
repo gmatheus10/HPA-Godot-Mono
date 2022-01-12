@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using Godot;
-using Priority_Queue;
 public class Pathfinding
 {
   private Grid<Cell> grid;
-  private SimplePriorityQueue<Cell, int> openList;
-  private HashSet<Cell> closedList;
+
 
   public Pathfinding(Grid<Cell> grid)
   {
@@ -34,26 +32,27 @@ public class Pathfinding
     Cell startCell = grid.GetGridObject(start, true);
     Cell endCell = grid.GetGridObject(end, true);
 
-    openList = new SimplePriorityQueue<Cell, int>();
-    openList.Enqueue(startCell, 0);
-    closedList = new HashSet<Cell>();
+    SortedList<float, Cell> openList = new SortedList<float, Cell>();
+    HashSet<Cell> closedList = new HashSet<Cell>();
+
+    openList.Add(0, startCell);
+
     ScanGridAndSetDefault();
 
     startCell.gCost = 0;
-    // startCell.hCost = CalculateManhatamDistance( startCell, endCell );
     startCell.hCost = Utils.ManhatamDistance(startCell, endCell);
-    startCell.CalculateF();
+    startCell.SetFCost();
     // //
     while (openList.Count > 0)
     {
-      Cell currentCell = openList.First;
-      openList.Dequeue();
+      Cell currentCell = openList.Values[0];
+      openList.RemoveAt(0);
       closedList.Add(currentCell);
       foreach (Cell neighbour in GetNeighboursList(currentCell))
       {
         if (neighbour.Equals(endCell))
         {
-          neighbour.cameFromCell = currentCell;
+          neighbour.SetParent(currentCell);
           return CalculatePath(neighbour);
         }
 
@@ -71,17 +70,39 @@ public class Pathfinding
       }
       void SetNeighbourCellPathValues(Cell neighbour, int tentativeGCost)
       {
-        neighbour.cameFromCell = currentCell;
+        neighbour.SetParent(currentCell);
         neighbour.gCost = tentativeGCost;
         neighbour.hCost = Utils.ManhatamDistance(neighbour, endCell);
-        //neighbour.hCost = CalculateManhatamDistance( neighbour, endCell );
-        neighbour.CalculateF();
+        neighbour.SetFCost();
       }
       void IncludeNeighbourOnOpenList(Cell neighbour)
       {
-        if (!openList.Contains(neighbour))
+        if (neighbour.GridPosition == new Vector2(30, 18))
         {
-          openList.Enqueue(neighbour, neighbour.FCost);
+
+        }
+        if (neighbour.GridPosition == new Vector2(30, 19))
+        {
+
+        }
+        if (!openList.ContainsKey(neighbour.FCost))
+        {
+          openList.Add(neighbour.FCost, neighbour);
+        }
+        else
+        {
+          Cell insider = openList[neighbour.FCost];
+          if (insider.gCost > neighbour.gCost)
+          {
+            //if the gCost is higher, it means that the hCost is lower
+            openList.Remove(neighbour.FCost);
+            openList.Add(neighbour.FCost, neighbour);
+            // insider.SetParent(null);
+          }
+          // else
+          // {
+          //   neighbour.SetParent(null);
+          // }
         }
       }
     }
@@ -96,7 +117,7 @@ public class Pathfinding
       {
         for (int y = 0; y < (int)grid.GridSize.y - 1; y++)
         {
-          grid.GridArray[x, y].SetDefaultCell();
+          grid.GridArray[x, y].SetDefault();
         }
       }
     }
@@ -105,16 +126,14 @@ public class Pathfinding
       List<Cell> path = new List<Cell>();
       path.Add(goal);
       Cell queue = goal;
-      while (queue.cameFromCell != null)
+      while (queue.Parent != null)
       {
-        path.Add(queue.cameFromCell);
-        queue = queue.cameFromCell;
+        path.Add((Cell)queue.Parent);
+        queue = (Cell)queue.Parent;
       }
       path.Reverse();
       return path;
     }
-
-
   }
 
   private List<Cell> GetNeighboursList(Cell currentCell)

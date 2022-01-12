@@ -223,7 +223,7 @@ public class HierarchicalPathfinding : Node2D
         }
 
 
-        float newG = currentJunction.gCost + Utils.ManhatamDistance(neighbour.GridPosition, currentJunction.GridPosition);
+        int newG = currentJunction.gCost + Utils.ManhatamDistance(neighbour.GridPosition, currentJunction.GridPosition);
         if (newG < neighbour.gCost)
         {
           ConfigureNeighbour(endJunction, currentJunction, neighbour, newG);
@@ -265,7 +265,7 @@ public class HierarchicalPathfinding : Node2D
             for (int m = 0; m <= current.clusterJunctions.Count - 1; m++)
             {
               Junction Junction = current.clusterJunctions[m];
-              Junction.gCost = float.MaxValue;
+              Junction.gCost = int.MaxValue;
               Junction.SetFCost();
               Junction.SetParent(null);
             }
@@ -274,7 +274,7 @@ public class HierarchicalPathfinding : Node2D
         }
       }
     }
-    void ConfigureNeighbour(Junction EndJunction, Junction currentJunction, Junction neighbour, float newG)
+    void ConfigureNeighbour(Junction EndJunction, Junction currentJunction, Junction neighbour, int newG)
     {
       neighbour.SetParent(currentJunction);
       neighbour.gCost = newG;
@@ -289,8 +289,8 @@ public class HierarchicalPathfinding : Node2D
       Junction queue = EndJunction;
       while (queue.Parent != null)
       {
-        path.Add(queue.Parent);
-        queue = queue.Parent;
+        path.Add((Junction)queue.Parent);
+        queue = (Junction)queue.Parent;
       }
       path.Reverse();
       return path;

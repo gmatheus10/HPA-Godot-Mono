@@ -9,7 +9,7 @@
 
 [node name="CreateGrid" parent="." instance=ExtResource( 1 )]
 GridSize = Vector2( 150, 150 )
-LevelOneClusterSize = Vector2( 25, 25 )
+LevelOneClusterSize = Vector2( 20, 20 )
 
 [node name="Mouse" type="Node2D" parent="."]
 script = ExtResource( 2 )
@@ -18,7 +18,7 @@ script = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
-position = Vector2( 32, 32 )
+position = Vector2( 973.68, 558.449 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 1022.75, 602.248 )
